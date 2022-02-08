@@ -26,13 +26,11 @@ const router = new express.Router();
 
 router.post("/", ensureAdmin, async function (req, res, next) {
   try {
-    console.log(req.body)
     const validator = jsonschema.validate(req.body, companyNewSchema);
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
-    console.log(req.body)
     const company = await Company.create(req.body);
     return res.status(201).json({ company });
   } catch (err) {
