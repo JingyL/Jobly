@@ -49,6 +49,7 @@ router.post("/", ensureAdmin, async function (req, res, next) {
  * Authorization required: none
  */
 
+
 router.get("/", async function (req, res, next) {
   try {
       console.log(req.body)
