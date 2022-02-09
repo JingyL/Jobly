@@ -103,7 +103,47 @@ describe("GET /companies", function () {
             },
           ],
     });
-  });
+});
+    test("works: filtering", async function () {
+        const resp = await request(app)
+            .get("/companies")
+            .query({ minEmployees: 3 });
+        expect(resp.body).toEqual({
+          companies: [
+            {
+              handle: "c3",
+              name: "C3",
+              description: "Desc3",
+              numEmployees: 3,
+              logoUrl: "http://c3.img",
+            },
+          ],
+        });
+      });
+    
+      test("works: filtering on all filters", async function () {
+        const resp = await request(app)
+            .get("/companies")
+            .query({ minEmployees: 2, maxEmployees: 3, name: "3" });
+        expect(resp.body).toEqual({
+          companies: [
+            {
+                description: "Desc2",
+                handle: "c2",
+                logoUrl: "http://c2.img",
+                name: "C2",
+                numEmployees: 2}
+          ],
+        });
+      });
+    
+      test("bad request if invalid filter key", async function () {
+        const resp = await request(app)
+            .get("/companies")
+            .query({ minEmployees: 2, nope: "nope" });
+        expect(resp.statusCode).toEqual(400);
+      });
+
 
   test("fails: test next() handler", async function () {
     // there's no normal failure event which will cause this route to fail ---

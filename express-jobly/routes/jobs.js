@@ -57,8 +57,6 @@ router.post("/", ensureAdmin, async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
     try {
-        console.log(req.query)
-        // const validator = jsonschema.validate(req.body, jobSearchSchema);
         if (req.query.hasEquity) {
             req.query.hasEquity = true
         }

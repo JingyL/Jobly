@@ -84,7 +84,7 @@ class Company {
         let idx = 1
         for (const [key, value] of Object.entries(filterObj)) {
             if (key == "minEmployees") {
-                queryStrArray.push(`num_employees > $${idx}`);
+                queryStrArray.push(`num_employees >= $${idx}`);
                 params.push(filterObj[key]);
             }
             if (key == "maxEmployees") {

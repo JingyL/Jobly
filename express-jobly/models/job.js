@@ -52,18 +52,18 @@ class Job {
        FROM jobs AS j
        LEFT JOIN companies AS c 
        ON j.company_handle = c.handle`);
-       console.log(jobRes.rows)
+        console.log(jobRes.rows)
         return jobRes.rows;
     }
 
 
-//     /** searchFilters (all optional):
-//      * - minSalary
-//      * - hasEquity (true returns only jobs with equity > 0, other values ignored)
-//      * - title (will find case-insensitive, partial matches)
-//      *
-//      * Returns [{ id, title, salary, equity, companyHandle, companyName }, ...]
-//      * */
+    //     /** searchFilters (all optional):
+    //      * - minSalary
+    //      * - hasEquity (true returns only jobs with equity > 0, other values ignored)
+    //      * - title (will find case-insensitive, partial matches)
+    //      *
+    //      * Returns [{ id, title, salary, equity, companyHandle, companyName }, ...]
+    //      * */
 
     static async filter(filterObj) {
 
@@ -101,13 +101,13 @@ class Job {
     }
 
 
-//     /** Given a job id, return data about job.
-//    *
-//    * Returns { id, title, salary, equity, companyHandle, company }
-//    *   where company is { handle, name, description, numEmployees, logoUrl }
-//    *
-//    * Throws NotFoundError if not found.
-//    **/
+    //     /** Given a job id, return data about job.
+    //    *
+    //    * Returns { id, title, salary, equity, companyHandle, company }
+    //    *   where company is { handle, name, description, numEmployees, logoUrl }
+    //    *
+    //    * Throws NotFoundError if not found.
+    //    **/
     static async get(id) {
         const jobRes = await db.query(
             `SELECT j.id, 
@@ -126,19 +126,18 @@ class Job {
         if (!jobRes.rows[0]) throw new NotFoundError(`No job: ${id}`);
         let data = jobRes.rows[0];
         return {
-   
-                "id": data.id,
-                "salary": data.salary,
-                "equity": data.equity,
-                "title": data.title,
-                "company": {
-                    "handle": data.company_handle,
-                    "name": data.name,
-                    "description": data.description,
-                    "numEmployees": data.num_employees,
-                    "logoUrl": data.logo_url
-                }
-  
+            id: data.id,
+            salary: data.salary,
+            equity: data.equity,
+            title: data.title,
+            company: {
+                handle: data.company_handle,
+                name: data.name,
+                description: data.description,
+                numEmployees: data.num_employees,
+                logoUrl: data.logo_url
+            }
+
         };
     }
 
@@ -146,17 +145,17 @@ class Job {
 
 
 
-//     /** Update job data with `data`.
-//      *
-//      * This is a "partial update" --- it's fine if data doesn't contain
-//      * all the fields; this only changes provided ones.
-//      *
-//      * Data can include: { title, salary, equity }
-//      *
-//      * Returns { id, title, salary, equity, companyHandle }
-//      *
-//      * Throws NotFoundError if not found.
-//      */
+    //     /** Update job data with `data`.
+    //      *
+    //      * This is a "partial update" --- it's fine if data doesn't contain
+    //      * all the fields; this only changes provided ones.
+    //      *
+    //      * Data can include: { title, salary, equity }
+    //      *
+    //      * Returns { id, title, salary, equity, companyHandle }
+    //      *
+    //      * Throws NotFoundError if not found.
+    //      */
     static async update(id, data) {
         const { setCols, values } = sqlForPartialUpdate(
             data,
@@ -181,10 +180,10 @@ class Job {
 
 
 
-//     /** Delete given job from database; returns undefined.
-//     *
-//     * Throws NotFoundError if company not found.
-//     **/
+    //     /** Delete given job from database; returns undefined.
+    //     *
+    //     * Throws NotFoundError if company not found.
+    //     **/
     static async remove(id) {
         const result = await db.query(
             `DELETE
